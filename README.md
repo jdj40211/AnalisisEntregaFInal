@@ -2,7 +2,7 @@
 
 Aplicación web para métodos numéricos desarrollada con Flask y MATLAB.
 
-## 🚀 Instrucciones de Ejecución
+## Instrucciones de Ejecución
 
 ### 1. Requisitos Previos
 - Python 3.12 o superior
@@ -94,14 +94,6 @@ Proyecto_Analisis/
 - Spline Cúbico
 - Informe comparativo automático
 
-### Funcionalidades Adicionales
-- ✅ Centro de ayuda interactivo
-- ✅ Calculadora de derivadas
-- ✅ Exportación de resultados (CSV, Excel)
-- ✅ Graficación de resultados
-- ✅ Validación de datos
-- ✅ Prevención de errores
-- ✅ Interfaz responsive
 
 ## Tecnologías
 
