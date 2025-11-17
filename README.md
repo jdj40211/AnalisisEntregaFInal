@@ -102,10 +102,4 @@ Proyecto_Analisis/
 - **Frontend:** HTML5, CSS3, JavaScript
 - **Librerías:** NumPy, Pandas, Matplotlib, OpenPyXL
 
-## Autores
 
-Ver el archivo `instrucciones.md` para más detalles sobre los requisitos del proyecto.
-
-## Licencia
-
-Este proyecto fue desarrollado como parte del curso de Análisis Numérico.
