@@ -12,8 +12,8 @@ Aplicación web para métodos numéricos desarrollada con Flask y MATLAB.
 
 **Clonar el repositorio:**
 ```bash
-git clone https://github.com/JohanAlv24/Proyecto_Analisis.git
-cd Proyecto_Analisis
+git clone https://github.com/jdj40211/AnalisisEntregaFInal.git
+cd AnalisisEntregaFInal
 ```
 
 **Instalar dependencias Python:**
