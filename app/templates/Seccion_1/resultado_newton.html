@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado de Newton</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/resultado_1.css') }}">
+</head>
+{% extends "base.html" %}
+
+{% block title %}
+Resultado de Newton
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4 text-center">Resultado del Método de Newton</h1>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">Resultado principal</h4>
+            <p>{{ r }}</p>
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <h2 class="mb-3">Tabla de Resultados</h2>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Iteración</th>
+                    <th>xn</th>
+                    <th>f(xn)</th>
+                    <th>df(xn)</th>
+                    <th>Error</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td>{{ row.Iteration }}</td>
+                    <td>{{ row.xn }}</td>
+                    <td>{{ row.fxn }}</td>
+                    <td>{{ row.dfxn }}</td>
+                    <td>{{ row.Error }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-center mt-3">
+            <form action="{{ url_for('seccion_1.descargar_archivo_newton') }}" method="post">
+                <button type="submit" class="btn btn-primary">Descargar Tabla</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <h2 class="mb-3">Gráfica</h2>
+        <div class="text-center">
+            <img src="{{ url_for('static', filename='newton.svg') }}" alt="Gráfica de Newton" class="img-fluid mb-3">
+
+        </div>
+        <div class="text-center mt-3">
+            <form action="{{ url_for('seccion_1.descargar_grafica_newton') }}" method="post">
+                <input type="hidden" name="f" value="{{ f }}">
+                <button type="submit" class="btn btn-secondary">Descargar Gráfica (SVG)</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado del Método Spline</title>
+    <!-- Incluir Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/resultado_3.css') }}">
+</head>
+{% extends "base.html" %}
+<body>
+{% block content %}
+
+<div class="table-container">
+        <div class="container mt-6">
+            <h1 class="text-center">Resultado del Método Spline</h1>
+
+            <h2>P(x)</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        {% for i in range(g) if i < g %}
+                            <th>X{{ grado[i] }}</th>
+                        {% endfor %}
+                        <th>--</th>
+                        <th>Rango</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in respuesta %}
+                    <tr>
+                        {% for value in p %}
+                        <td>{{ value }}</td>
+                        {% endfor %}
+                        {% set xi = x|sort %}
+                        <th>{{ x[loop.index0] }} ≤ x ≤ {{ x[loop.index0+1] }} </th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <!-- Mostrar la gráfica generada -->
+            <div class="mt-4">
+                <h1>Gráfica del Método Spline:</h1>
+                <img src="{{ imagen_path }}" alt="Gráfica del Método Spline" class="img-fluid">
+            </div>
+
+            <h2>Descargar Polinomio</h2>
+            <form action="spline/descargar" method="post">
+                <div class="button-container">
+                    <button type="submit">Descargar</button><br>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Incluir jQuery y Bootstrap JS si es necesario -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {% endblock %}
+</body>
+
+</html>

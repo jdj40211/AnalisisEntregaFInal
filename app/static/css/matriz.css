@@ -1,0 +1,192 @@
+/* ===== MATRIX INPUT - MODERN DESIGN ===== */
+
+.matrix-input-container {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    border: 2px solid var(--gray-light);
+    margin-bottom: 1.5rem;
+}
+
+.matrix-input-container h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.matrix-input-container h3 i {
+    color: var(--primary);
+}
+
+.matrix-grid {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.matrix-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--gray-light);
+    border-radius: var(--radius);
+    font-size: 0.95rem;
+    font-family: 'Monaco', 'Courier New', monospace;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.matrix-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.matrix-controls {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.matrix-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 2px solid var(--gray-light);
+    background: white;
+    color: var(--text-primary);
+}
+
+.matrix-btn:hover {
+    background: var(--gray-lighter);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.matrix-btn i {
+    font-size: 1rem;
+}
+
+.matrix-size-control {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--gray-lighter);
+    border-radius: var(--radius-md);
+    margin-bottom: 1rem;
+}
+
+.matrix-size-control label {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.matrix-size-control input[type="number"] {
+    width: 80px;
+    padding: 0.5rem;
+    border: 2px solid var(--gray-light);
+    border-radius: var(--radius);
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.matrix-size-control input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* Vector Input */
+.vector-input-container {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border: 2px solid var(--gray-light);
+    margin-bottom: 1.5rem;
+}
+
+.vector-input-container h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.vector-inputs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.75rem;
+}
+
+.vector-input {
+    padding: 0.75rem;
+    border: 2px solid var(--gray-light);
+    border-radius: var(--radius);
+    font-size: 0.95rem;
+    font-family: 'Monaco', 'Courier New', monospace;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.vector-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Matrix Preview */
+.matrix-preview {
+    background: var(--gray-lighter);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    margin-top: 1rem;
+    font-family: 'Monaco', 'Courier New', monospace;
+}
+
+.matrix-preview-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.matrix-preview-content {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .matrix-input-container,
+    .vector-input-container {
+        padding: 1.25rem;
+    }
+    
+    .matrix-controls {
+        flex-direction: column;
+    }
+    
+    .matrix-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .vector-inputs {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+}

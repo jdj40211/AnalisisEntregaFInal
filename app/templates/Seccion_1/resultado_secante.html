@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado de Secante</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/resultado_1.css') }}">
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+        .table th, .table td {
+            white-space: nowrap;
+            text-align: center;
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+{% extends "base.html" %}
+
+{% block title %}
+Resultado de Secante
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4 text-center">Resultado del Método de la Secante</h1>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">Resultado principal</h4>
+            <p>{{ respuesta }}</p>
+        </div>
+    </div>
+
+    {% if respuesta != "El intervalo es inadecuado" %}
+    <div class="mb-5">
+        <h2 class="mb-3">Tabla de Resultados</h2>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Iteración</th>
+                        <th>xn</th>
+                        <th>f(xn)</th>
+                        <th>Error</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                    <tr>
+                        <td>{{ row.Iteration }}</td>
+                        <td>{{ row.xn }}</td>
+                        <td>{{ row.fxn }}</td>
+                        <td>{{ row.Error }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <br>
+
+        <div class="text-center mt-3">
+            <form action="{{ url_for('seccion_1.descargar_archivo') }}" method="post">
+                <button type="submit" class="btn btn-primary">Descargar Tabla</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <h2 class="mb-3">Gráfica</h2>
+        {% if imagen_path %}
+        <div class="text-center">
+            <img src="{{ url_for('static', filename='secante.svg') }}" alt="Gráfica de Secante" class="img-fluid mb-3">
+        </div>
+        {% else %}
+        <p class="text-warning text-center">No se pudo generar la gráfica.</p>
+        {% endif %}
+
+        <br>
+
+        <div class="text-center mt-3">
+            <form action="{{ url_for('seccion_1.descargar_grafica_secante') }}" method="post">
+                <input type="hidden" name="f" value="{{ f }}">
+                <button type="submit" class="btn btn-secondary">Descargar Gráfica (SVG)</button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

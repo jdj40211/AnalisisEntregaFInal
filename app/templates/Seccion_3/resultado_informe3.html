@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado del Informe Comparativo</title>
+    <!-- Incluir Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/resultado_3.css') }}">
+</head>
+{% extends "base.html" %}
+<body>
+{% block content %}
+
+<div class="table-container">
+        <div class="container mt-6">
+            <h1 class="text-center">Resultados del Informe de Interpolación</h1>
+
+            <h2>P(x) Spline Lineal</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>X1</th>
+                        <th>--</th>
+                        <th>Rango</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in tabla1 %}
+                    <tr>
+                        {% for value in p %}
+                        <td>{{ value }}</td>
+                        {% endfor %}
+                        <th>{{ x[loop.index0] }} ≤ x ≤ {{ x[loop.index0+1] }} </th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br>
+            <h2>P(x) Spline Cúbico</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>X3</th>
+                        <th>X2</th>
+                        <th>X1</th>
+                        <th>--</th>
+                        <th>Rango</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in tabla3 %}
+                    <tr>
+                        {% for value in p %}
+                        <td>{{ value }}</td>
+                        {% endfor %}
+                        <th>{{ x[loop.index0] }} ≤ x ≤ {{ x[loop.index0+1] }} </th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br>
+            <br>
+            {% for nombre, coeficientes in polinomios.items() %}
+                <div class="text-center mb-4">  {# mb-4 le da un poco de espacio abajo #}
+                    <h2>{{ nombre }}</h2>
+                    <p>
+                    {% for coef in coeficientes %}
+                        {# Calcula el exponente según el índice #}
+                        {% set exponent = coeficientes|length - loop.index0 - 1 %}
+                        {% if coef != 0 %}
+                        {# Ponemos signo + para coeficientes positivos, salvo el primero #}
+                        {% if not loop.first and coef > 0 %}+ {% endif %}
+                        {{ coef }}
+                        {% if exponent > 0 %}
+                            x
+                            {# Si el exponente es >1, lo mostramos en superíndice #}
+                            {% if exponent > 1 %}<sup>{{ exponent }}</sup>{% endif %}
+                        {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    </p>
+                </div>
+                {% endfor %}
+                <br>
+                <br>
+            <h2>Errores</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Lagrange</th>
+                        <th>Newton</th>
+                        <th>Vandermonde</th>
+                        <th>Spline Lineal</th>
+                        <th>Spline Cúbico</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for error in errores %}
+                            <th>{{ error }}</th>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <br>
+            <br>
+            {% if mejor_met|length == 1 %}
+                <h1 class="text-center">Mejor Método</h1>
+            {% else %}
+                <h1 class="text-center">Mejores Métodos</h1>
+            {% endif %}
+                    {% for item in mejor_met %}
+                        <p >          
+                            <h4 style="text-align: center;">{{ item }}</h4><br>
+                        </p>
+                    {% endfor %}
+            <br>
+        </div>
+
+    </div>
+
+
+    <!-- Incluir jQuery y Bootstrap JS si es necesario -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {% endblock %}
+</body>
+
+</html>

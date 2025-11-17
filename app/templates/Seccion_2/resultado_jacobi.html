@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado de Jacobi</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/resultado_2.css') }}">
+    <style>
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+        }
+        
+        .table-container table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+            font-size: 0.9em;
+            background: white;
+        }
+        
+        .table-container th, .table-container td {
+            padding: 8px 12px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            color: black;
+        }
+        
+        .table-container th {
+            background-color: #f5f5f5;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        .table-container tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .table-container tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .action-buttons form {
+            flex: 1;
+        }
+        
+        .action-buttons button {
+            width: 100%;
+            padding: 10px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-download {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .btn-download:hover {
+            background-color: #45a049;
+        }
+        
+        .btn-back {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .btn-back:hover {
+            background-color: #d32f2f;
+        }
+        
+        .btn-help {
+            background-color: #ff9800;
+            color: white;
+        }
+        
+        .btn-help:hover {
+            background-color: #f57c00;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .table-container table {
+                font-size: 0.8em;
+            }
+            
+            .table-container th, .table-container td {
+                padding: 6px 8px;
+            }
+        }
+        
+        .result-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    {% block content %}
+        <h1>Resultado de Jacobi</h1>
+        <p>
+            {%if length != 0%}
+            {% for val in xn[-1] %}
+            {{ val }}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+            Es una aproximación de la solución del sistema con una tolerancia= {{ tol }}
+            {% endif %}
+        </p>
+        
+        {%if length != 0%}
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th rowspan="2">N</th>
+                        <th colspan="{{ xn[0]|length }}">Valores de xi</th>
+                        <th rowspan="2">Error</th>
+                    </tr>
+                    <tr>
+                        {% for i in range(xn[0]|length) %}
+                        <th>x{{ i + 1 }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(length) %}
+                    <tr>
+                        <td>{{ N[i] }}</td>
+                        {% for val in xn[i] %}
+                        <td>{{ val }}</td>
+                        {% endfor %}
+                        <td>{{ E[i] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <div class="action-buttons">
+                <form action="/" method="get">
+                    <button type="submit" class="btn-back">Volver al Inicio</button>
+                </form>
+                <form action="/ayuda" method="get">
+                    <button type="submit" class="btn-help">Ayuda</button>
+                </form>
+                <form action="jacobi/descargar" method="post">
+                    <button type="submit" class="btn-download">Descargar Resultados</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="result-container">
+            <h2>Solución Sistema de Ecuaciones Ax=b</h2>
+            <div class="image-container">
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <img src="{{ imagen_path }}" alt="Imagen">
+                        <p>{{ Re }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    {% endblock %}
+</body>
+</html>

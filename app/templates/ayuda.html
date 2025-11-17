@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Ayuda | Análisis Numérico</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ayuda.css') }}">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--dark-color);
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .help-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        details {
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        details[open] {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        summary {
+            padding: 15px 20px;
+            background-color: var(--light-color);
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            outline: none;
+            transition: var(--transition);
+        }
+        
+        summary:hover {
+            background-color: #e0e7eb;
+        }
+        
+        summary .icon {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        
+        details[open] summary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        details[open] summary .icon {
+            color: white;
+        }
+        
+        details div {
+            padding: 20px;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            padding-left: 10px;
+            position: relative;
+        }
+        
+        li:before {
+            content: "•";
+            color: var(--primary-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .derivative-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            padding: 25px;
+            margin-top: 30px;
+        }
+        
+        .p-n {
+            font-weight: 500;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        #derivative-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        label {
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        input[type="text"] {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        input[type="text"]:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            align-self: flex-start;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+        
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        #result p {
+            margin: 5px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .help-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+{% extends "base.html" %}
+{% block content %}
+<body>
+    <div class="container">
+        <div class="help-section">
+            <h1><i class="fas fa-question-circle" style="color: var(--primary-color); margin-right: 10px;"></i> Centro de Ayuda</h1>
+            
+            <details>
+                <summary>
+                    <span class="icon"><i class="fas fa-cog"></i></span>
+                    General
+                </summary>
+                <div>
+                    <ul>
+                        <li>En nuestro programa, la cadena que proporcionas se analiza y evalúa por medio de <a href="https://la.mathworks.com/products/matlab.html" target="_blank">MATLAB</a>. Asegúrate de que la cadena o función proporcionada respete la sintaxis de la plataforma. Descubre cómo trabajar con los operadores disponibles <a href="https://la.mathworks.com/help/matlab/arithmetic.html?s_tid=CRUX_lftnav" target="_blank">aquí</a>.</li>
+                        <li>En los métodos que piden Tolerancia, esta debe ser positiva.</li>
+                        <li>En los métodos que piden número de iteraciones, este debe ser positivo.</li>
+                    </ul>
+                </div>
+            </details>
+            
+            <details>
+                <summary>
+                    <span class="icon"><i class="fas fa-chart-line"></i></span>
+                    Ecuaciones de una variable
+                </summary>
+                <div>
+                    <ul>
+                        <li>Asegúrate de que la función proporcionada contenga una raíz.</li>
+                        <li>La función debe ser continua y diferenciable.</li>
+                        <li>En el método de bisección, el valor de xi debe ser menor al de xs, además de que estos dos valores deben existir en la función.</li>
+                        <li>En el método de raíces múltiples, asegúrate de que las derivadas de la función sean correctas.</li>
+                    </ul>
+                </div>
+            </details>
+            
+            <details>
+                <summary>
+                    <span class="icon"><i class="fas fa-table"></i></span>
+                    Sistemas de ecuaciones
+                </summary>
+                <div>
+                    <ul>
+                        <li>El determinante de la matriz debe ser diferente de 0. Averigua el determinante de tu matriz <a href="https://matrixcalc.org/es/det.html" target="_blank">aquí</a>.</li>
+                        <li>La matriz no debe tener 0's en la diagonal principal.</li>
+                        <li>En SOR, si w=1, este trabajará como el método de Gauss-Seidel.</li>
+                        <li>En SOR, si 0&lt;w&lt;1, se obtienen métodos de sub-relajación (Se emplean para obtener la convergencia de algunos sistemas que no son convergentes por Gauss-Seidel)</li>
+                        <li>En SOR, si 1&lt;w&lt;2, se obtienen método de sobre-relajación (Se emplean para acelerar la convergencia de algunos sistemas que son convergentes pero lentos en Gauss-Seidel)</li>
+                    </ul>
+                </div>
+            </details>
+            
+            <details>
+                <summary>
+                    <span class="icon"><i class="fas fa-project-diagram"></i></span>
+                    Interpolación
+                </summary>
+                <div>
+                    <ul>
+                        <li>El vector X o el vector Y no pueden tener valores repetidos.</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+        
+        <div class="derivative-container">
+            <p class="p-n"><i class="fas fa-calculator" style="margin-right: 10px; color: var(--primary-color);"></i> Calculadora de Derivadas</p>
+            <form id="derivative-form" action="/derivar" method="POST">
+                <label for="function-input">Ingresa la función aquí:</label>
+                <input type="text" id="function-input" name="function" required placeholder="Ej: x^2 + 3*x - 5">
+                <button type="submit"><i class="fas fa-arrow-right" style="margin-right: 8px;"></i>Calcular Derivada</button>
+            </form>
+            
+            {% if result %}
+            <div id="result">
+                <p class="p-n"><i class="fas fa-check-circle" style="color: var(--secondary-color); margin-right: 8px;"></i>Resultado:</p>
+                <p style="font-family: 'Courier New', monospace; background-color: #f0f0f0; padding: 10px; border-radius: 5px;">{{ result }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+{% endblock %}
+</html>

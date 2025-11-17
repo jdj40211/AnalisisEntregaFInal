@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resultado de Raíces Múltiples</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/resultado_1.css') }}">
+</head>
+{% extends "base.html" %}
+
+{% block title %}
+Resultado de Raíces Múltiples
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Título principal -->
+    <h1 class="mb-4 text-center">Resultados del Método de Raíces Múltiples</h1>
+
+    <!-- Resultado principal -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">Resultado principal</h4>
+            <p>{{ resultado }}</p>
+        </div>
+    </div>
+
+    <!-- Tabla de resultados -->
+    <div class="mb-5">
+        <h2 class="mb-3">Detalles de las iteraciones</h2>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Iteración</th>
+                    <th>xi</th>
+                    <th>f(xi)</th>
+                    <th>Error</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td>{{ row['Iteración'] }}</td>
+                    <td>{{ row['xi'] }}</td>
+                    <td>{{ row['f(xi)'] }}</td>
+                    <td>{{ row['Error'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Botón para descargar la tabla -->
+        <div class="text-center mt-3">
+            <form action="{{ url_for('seccion_1.descargar_archivo_raicesm') }}" method="post">
+                <button type="submit" class="btn btn-primary">Descargar Tabla</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Gráfica -->
+    <div class="mb-5">
+        <h2 class="mb-3">Gráfica</h2>
+        {% if imagen_path %}
+        <div class="text-center">
+            <img src="{{ url_for('static', filename='raices.svg') }}" alt="Gráfica de Raíces Múltiples" class="img-fluid mb-3">
+        </div>
+        {% else %}
+        <p class="text-warning text-center">No se pudo generar la gráfica.</p>
+        {% endif %}
+
+        <!-- Botón para descargar la gráfica -->
+        <div class="text-center mt-3">
+            <form action="{{ url_for('seccion_1.descargar_grafica_raicesm') }}" method="post">
+                <input type="hidden" name="fn" value="{{ fn }}"> <!-- Campo oculto con el valor de la función -->
+                <button type="submit" class="btn btn-secondary">Descargar Gráfica (SVG)</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

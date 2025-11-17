@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducir Matriz</title>
+    <!-- Incluir Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/formulario_3.css') }}">
+    
+    <!-- Incluir jQuery y Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    {% extends "base.html" %}
+    {% block content %}
+    <div class="container mt-6">
+        <div class= "form-container">
+        
+        <h1 class="text-center">Método de Spline</h1>
+        
+        <p></p>
+        <p>Debes ingresar por lo menos dos puntos para la ejecución de este método</p>
+        <p>Nota: Intenta no utilizar puntos repetidos ya que esto podría generar resultados inesperados en el polinomio</p>
+
+        <!-- Formulario para definir el tamaño de la matriz -->
+        <div class="form">
+            <form id="tamanioForm" class="form-inline mb-3">
+                <div class="form-group mr-2">
+                    <label for="filas" class="mr-2">Cantidad de datos:</label>
+                    <input type="number" id="cantidadDatos" name="cantidadDatos" min="1" class="form-control" required>
+                </div>
+                <button type="button" onclick="generarVectorx(); generarVectory();" class="button">Generar</button>
+            </form>
+        </div>
+
+        <div class="row">
+            <div class="coordinate">
+                <div class="col-md-4">
+                    <table id="vectorx" class="table table-bordered">
+                        <h6>X</h6>
+                        <!-- La tabla se generará dinámicamente con JavaScript -->
+                    </table>
+                </div>
+            </div>
+            <div class="coordinate">
+                <div class="col-md-4">
+                    <table id="vectory" class="table table-bordered">
+                        <h6>Y</h6>
+                        <!-- La tabla se generará dinámicamente con JavaScript -->
+                    </table>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class= "form">
+        <form id="grado_spline" class="form-inline mb-3">
+            <div class="form-group mr-2">
+                <label for="gs" class="mr-2">Grado del trazador:</label><br>
+                <select id="gs" name="gs" class="form-control" min="1" required>
+                    <option value="Lineal">Lineal</option>
+                    <option value="Cubico">Cúbico</option>
+                </select><br><br>
+            </div>
+        </form>
+        </div>
+        
+        <form action="/spline" method="POST" class="enviar">
+            <input type="hidden" id="x" name="x">
+
+            <input type="hidden" id="y" name="y">
+
+            <input type="hidden" id="d" name="d">
+
+            <button type="submit" id="ejecutarMetodo" class='button'>Ejecutar Método</button>
+
+        </form>
+    </div>
+
+ 
+    <script>
+        const xDataInput = document.getElementById('x');
+        const yDataInput = document.getElementById('y');
+        const dDataInput = document.getElementById('d');
+
+        function convertirGrado(){
+            const grado = document.getElementById("gs").value
+            let gradoNum = 0;
+            if (grado == "Lineal" ){
+                gradoNum = 1;
+            }
+            else if (grado == "Cuadratico"){
+                gradoNum = 2;
+            }
+            else if (grado == "Cubico"){
+                gradoNum = 3;
+            }
+            else {
+                gradoNum = 1;
+            }
+
+            return gradoNum;
+        }
+
+        function generarVectorx() {
+            var filas = parseInt(document.getElementById("cantidadDatos").value);
+            var tabla = document.getElementById("vectorx");
+
+            // Limpiar la tabla
+            tabla.innerHTML = '';
+            var fila = tabla.insertRow(0);
+            for (var j = 0; j < filas; j++) {
+                var celda = fila.insertCell(j);
+                var input = document.createElement("input");
+                input.type = "number";
+                input.name = "dato[" + j + "]";
+                input.style.width = "80px";
+                input.style.textAlign = "center";
+                celda.appendChild(input);
+            }
+
+        }
+
+        function generarVectory() {
+            var filas = parseInt(document.getElementById("cantidadDatos").value);
+            var tabla = document.getElementById("vectory");
+
+            // Limpiar la tabla
+            tabla.innerHTML = '';
+            var fila = tabla.insertRow(0);
+            for (var j = 0; j < filas; j++) {
+                var celda = fila.insertCell(j);
+                var input = document.createElement("input");
+                input.type = "number";
+                input.name = "dato[" + j + "]";
+                input.style.width = "80px";
+                input.style.textAlign = "center";
+                celda.appendChild(input);
+            }
+        }
+
+        document.getElementById('ejecutarMetodo').addEventListener('click', function() {
+            // Obtener los datos de los vectores x e y
+            var vectorx = [];
+            var vectory = [];
+            $("#vectorx input").each(function () {
+                vectorx.push(parseFloat($(this).val()));
+            });
+            $("#vectory input").each(function () {
+                vectory.push(parseFloat($(this).val()));
+            });
+
+            // Convertir los vectores a cadenas JSON
+            var vectorxJSON = JSON.stringify(vectorx);
+            var vectoryJSON = JSON.stringify(vectory);
+            var grado = convertirGrado();
+            xDataInput.value = vectorxJSON;
+            yDataInput.value = vectoryJSON;
+            dDataInput.value = grado;
+            console.log(grado);
+            console.log(vectorxJSON);
+            console.log(vectoryJSON)
+        });
+
+    </script>
+
+</body>
+{% endblock %}
+</html>

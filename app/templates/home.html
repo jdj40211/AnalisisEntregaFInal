@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Análisis Numérico{% endblock %}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--dark-color);
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .intro-text {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .sections-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .section-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-header {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+        
+        .section-description {
+            padding: 15px 20px;
+            color: #555;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .methods-container {
+            padding: 15px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        
+        .method-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .method-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .section-card:nth-child(2) .method-btn {
+            background-color: var(--secondary-color);
+        }
+        
+        .section-card:nth-child(2) .method-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        .section-card:nth-child(3) .method-btn {
+            background-color: var(--accent-color);
+        }
+        
+        .section-card:nth-child(3) .method-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .info-section {
+            margin-top: 50px;
+            background-color: var(--dark-color);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .sections-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <h1>Herramientas de Análisis Numérico</h1>
+        <p class="subtitle">Plataforma completa para resolver problemas matemáticos complejos con precisión, eficiencia y métodos numéricos avanzados.</p>
+        
+        <div class="hero-badges">
+            <span class="badge"><i class="fas fa-check-circle"></i> 14 Métodos</span>
+            <span class="badge"><i class="fas fa-chart-line"></i> Visualización</span>
+            <span class="badge"><i class="fas fa-file-export"></i> Exportación</span>
+            <span class="badge"><i class="fas fa-calculator"></i> Precisión</span>
+        </div>
+    </div>
+    
+    <!-- Sections Grid -->
+    <div class="sections-grid">
+        <!-- Sección 1: Ecuaciones de una variable -->
+        <div class="section-card">
+            <div class="section-header">
+                <h2><i class="fas fa-square-root-alt"></i> Ecuaciones de una Variable</h2>
+            </div>
+            <div class="section-description">
+                <h3>Capítulo 1</h3>
+                <p>Métodos iterativos para encontrar raíces de ecuaciones no lineales y análisis de convergencia.</p>
+            </div>
+            <div class="methods-grid">
+                <a href="/punto_fijo" class="method-btn">
+                    <i class="fas fa-dot-circle"></i>
+                    <span>Punto Fijo</span>
+                </a>
+                <a href="/biseccion" class="method-btn">
+                    <i class="fas fa-cut"></i>
+                    <span>Bisección</span>
+                </a>
+                <a href="/multiple_roots" class="method-btn">
+                    <i class="fas fa-layer-group"></i>
+                    <span>Raíces Múltiples</span>
+                </a>
+                <a href="/rf" class="method-btn">
+                    <i class="fas fa-ruler"></i>
+                    <span>Regla Falsa</span>
+                </a>
+                <a href="/secante" class="method-btn">
+                    <i class="fas fa-slash"></i>
+                    <span>Secante</span>
+                </a>
+                <a href="/newton" class="method-btn">
+                    <i class="fas fa-angle-double-right"></i>
+                    <span>Newton</span>
+                </a>
+                <a href="/informe" class="method-btn informe-btn">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Informe Comparativo</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Sección 2: Sistemas de ecuaciones -->
+        <div class="section-card">
+            <div class="section-header">
+                <h2><i class="fas fa-th"></i> Sistemas de Ecuaciones</h2>
+            </div>
+            <div class="section-description">
+                <h3>Capítulo 2</h3>
+                <p>Métodos iterativos para resolver sistemas de ecuaciones lineales con análisis de convergencia espectral.</p>
+            </div>
+            <div class="methods-grid">
+                <a href="/gaussSeidel" class="method-btn">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Gauss-Seidel</span>
+                </a>
+                <a href="/jacobi" class="method-btn">
+                    <i class="fas fa-redo"></i>
+                    <span>Jacobi</span>
+                </a>
+                <a href="/sor" class="method-btn">
+                    <i class="fas fa-bolt"></i>
+                    <span>SOR</span>
+                </a>
+                <a href="/informe2" class="method-btn informe-btn">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Informe Comparativo</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Sección 3: Interpolación -->
+        <div class="section-card">
+            <div class="section-header">
+                <h2><i class="fas fa-project-diagram"></i> Interpolación</h2>
+            </div>
+            <div class="section-description">
+                <h3>Capítulo 3</h3>
+                <p>Métodos de aproximación e interpolación polinomial para análisis de datos y predicción de valores.</p>
+            </div>
+            <div class="methods-grid">
+                <a href="/lagrange" class="method-btn">
+                    <i class="fas fa-wave-square"></i>
+                    <span>Lagrange</span>
+                </a>
+                <a href="/newtonint" class="method-btn">
+                    <i class="fas fa-chart-area"></i>
+                    <span>Newton</span>
+                </a>
+                <a href="/vandermonde" class="method-btn">
+                    <i class="fas fa-table"></i>
+                    <span>Vandermonde</span>
+                </a>
+                <a href="/spline" class="method-btn">
+                    <i class="fas fa-bezier-curve"></i>
+                    <span>Spline</span>
+                </a>
+                <a href="/informe3" class="method-btn informe-btn">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Informe Comparativo</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Help CTA -->
+    <div class="help-cta">
+        <h3><i class="fas fa-question-circle"></i> ¿Necesitas Ayuda?</h3>
+        <p>Consulta nuestra guía completa con ejemplos, sintaxis y calculadora de derivadas integrada.</p>
+        <a href="/ayuda" class="help-btn">
+            <i class="fas fa-book-open"></i>
+            <span>Ir al Centro de Ayuda</span>
+        </a>
+    </div>
+</div>
+{% endblock %}

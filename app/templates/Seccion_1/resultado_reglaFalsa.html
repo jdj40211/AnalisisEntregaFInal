@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado de Regla Falsa</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/resultado_1.css') }}">
+
+</head>
+{% extends "base.html" %}
+
+{% block title %}
+Resultado de Regla Falsa
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4 text-center">Resultado del Método de Regla Falsa</h1>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">Resultado principal</h4>
+            <p>{{ respuesta }}</p>
+        </div>
+    </div>
+
+    {% if respuesta != "El intervalo es inadecuado" %}
+    <!-- Tabla de resultados -->
+    <div class="mb-5">
+        <h2 class="mb-3">Tabla de Resultados</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Iteración</th>
+                        <th>xm</th>
+                        <th>xi</th>
+                        <th>xs</th>
+                        <th>fm</th>
+                        <th>fi</th>
+                        <th>fs</th>
+                        <th>Error</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                    <tr>
+                        <td>{{ row.n }}</td>
+                        <td>{{ row.x_m }}</td>
+                        <td>{{ row.x_i }}</td>
+                        <td>{{ row.x_s }}</td>
+                        <td>{{ row.f_m }}</td>
+                        <td>{{ row.f_i }}</td>
+                        <td>{{ row.f_s }}</td>
+                        <td>{{ row.E }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <br>
+
+        <div class="text-center mt-3">
+            <form action="{{ url_for('seccion_1.descargar_archivorf') }}" method="post">
+                <button type="submit" class="btn btn-primary">Descargar Tabla</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Gráfica -->
+    <div class="mb-5">
+        <h2 class="mb-3">Gráfica</h2>
+        {% if imagen_path %}
+        <div class="text-center">
+            <img src="{{ url_for('static', filename='rf.svg') }}" alt="Gráfica de Regla Falsa" class="img-fluid mb-3">
+        </div>
+        {% else %}
+        <p class="text-warning text-center">No se pudo generar la gráfica.</p>
+        {% endif %}
+
+        <br>
+
+        <div class="text-center mt-3">
+            <form action="{{ url_for('seccion_1.descargar_grafica_regla_falsa') }}" method="post">
+                <input type="hidden" name="f" value="{{ f }}">
+                <button type="submit" class="btn btn-secondary">Descargar Gráfica (SVG)</button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

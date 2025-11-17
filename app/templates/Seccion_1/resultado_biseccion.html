@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados Bisección</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/resultado_1.css') }}">
+</head>
+{% extends "base.html" %}
+
+{% block title %}
+Resultados Bisección
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Título principal -->
+    <h1 class="mb-4 text-center">Resultados del Método de Bisección</h1>
+
+    <!-- Resultados principales -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h4 class="card-title">Resultados principales</h4>
+            <p><strong>Raíz aproximada:</strong> {{ r }}</p>
+            <p><strong>Iteraciones realizadas:</strong> {{ length }}</p>
+        </div>
+    </div>
+
+    <!-- Tabla de resultados -->
+    <div class="mb-5">
+        <h2 class="mb-3">Detalles de las iteraciones</h2>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Iteración</th>
+                    <th>x_n</th>
+                    <th>f(x_n)</th>
+                    <th>Error</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(length) %}
+                <tr>
+                    <td>{{ N[i] }}</td>
+                    <td>{{ xn[i] }}</td>
+                    <td>{{ fm[i] }}</td>
+                    <td>{{ E[i] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+
+        <!-- Botón para descargar la tabla -->
+        <div class="text-center mt-3">
+            <form action="{{ url_for('seccion_1.descargar_archivo_biseccion') }}" method="post">
+                <button type="submit" class="btn btn-primary">Descargar Tabla</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Gráfica -->
+    <div class="mb-5">
+        <h2 class="mb-3">Gráfica</h2>
+        {% if imagen_path %}
+        <div class="text-center">
+            <img src="{{ url_for('static', filename='biseccion.svg') }}" alt="Gráfica de Bisección" class="img-fluid mb-3">
+        </div>
+        {% else %}
+        <p class="text-warning text-center">No se pudo generar la gráfica.</p>
+        {% endif %}
+
+        <!-- Botón para descargar la gráfica -->
+        <div class="text-center mt-3">
+            <form action="{{ url_for('seccion_1.descargar_grafica_biseccion_svg') }}" method="post">
+                <input type="hidden" name="f_str" value="{{ f }}"> <!-- Enviar el nombre de la función -->
+                <button type="submit" class="btn btn-secondary">Descargar Gráfica (SVG)</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,7 @@
+Method,Iteration,Error,x1,fx1,Result
+Biseccion,0,0,-2,0,Triunfa
+Newton,0,0,-2,0,Triunfa
+Punto-fijo,0,0,-2,0,Triunfa
+Raices-multiples,0,0,-2,0,Triunfa
+Regla-falsa,0,0,-2,0,Triunfa
+Secante,0,0,2,0,Triunfa

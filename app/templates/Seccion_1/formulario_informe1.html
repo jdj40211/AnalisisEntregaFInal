@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} Informe Comparativo {% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/formulario_1.css') }}">
+</head>
+
+{% extends "base.html" %}
+{% block content %}
+<body>
+    <div class="form-container">
+        <h1>Informe Comparativo de Métodos</h1>
+        <p>Por favor, ingrese los siguientes datos:</p>
+        <form action="/informe" method="post">
+            <div class="mb-3">
+                <label for="f" class="form-label">Función f:</label>
+                <input type="text" id="f" name="f" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="g" class="form-label">Función g:</label>
+                <input type="text" id="g" name="g" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="x" class="form-label">Valor inicial (X0):</label>
+                <input type="text" id="x0" name="x0" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="x" class="form-label">Valor inicial (X1):</label>
+                <input type="text" id="x1" name="x1" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="xi" class="form-label">Límite inferior del intervalo (xi):</label>
+                <input type="text" id="xi" name="xi" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="xs" class="form-label">Límite superior del intervalo (xs):</label>
+                <input type="text" id="xs" name="xs" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="niter" class="form-label">Nº máximo de Iteraciones:</label>
+                <input type="text" id="niter" name="niter" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="tipe" class="form-label">Tipo de Tolerancia:</label>
+                <select id="tipe" name="tipe" class="form-select" required>
+                    <option value="Decimales Correctos">Decimales Correctos</option>
+                    <option value="Cifras Significativas">Cifras Significativas</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="tol" class="form-label">Tolerancia:</label>
+                <input type="text" id="tol" name="tol" class="form-control" required>
+            </div>
+
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
+
+    <!-- Modal de error -->
+    {% if error_message %}
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ error_message }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Mostrar el modal si hay un error
+        {% if error_message %}
+            var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+            errorModal.show();
+        {% endif %}
+    </script>
+</body>
+{% endblock %}
+</html>
