@@ -20,30 +20,61 @@ eng.addpath(dir_matlab)
 @blueprint.route('/lagrange', methods=['POST', 'GET'])
 def lagrange():
     if request.method == 'POST':
-    
-        x = json.loads(request.form['vectorx'])
-        y = json.loads(request.form['vectory'])
-        
-        eng.addpath(dir_matlab)
-        
-        matx = matlab.double(x)
-        maty = matlab.double(y)
-        
-        respuesta = eng.lagrange(matx, maty)
-        print("respuesta",respuesta)
+        try:
+            print("[DEBUG] Lagrange - Procesando solicitud POST")
 
-        df = pd.read_csv(os.path.join(dir_tables,'tabla_lagrange.csv'))
-        polinomio = df['Polinomio'][0]
-          
-        data = df.to_dict(orient='records')
-        #print("data",data)
+            x = json.loads(request.form['vectorx'])
+            y = json.loads(request.form['vectory'])
 
-        df.to_excel(os.path.join(dir_tables,'tabla_lagrange.xlsx'), index=False)
+            print(f"[DEBUG] Lagrange - Datos recibidos: x={x}, y={y}")
 
-        # Gráfica
-        imagen_path = os.path.join('static','grafica_lagrange.png')  # Ruta de la imagen
-        return render_template('Seccion_3/resultado_lagrange.html',respuesta=polinomio, data=data, imagen_path=imagen_path)
-        
+            # Validar que los vectores tengan la misma longitud
+            if len(x) != len(y):
+                error_msg = "Los vectores X e Y deben tener la misma longitud"
+                print(f"[ERROR] Lagrange - {error_msg}")
+                return render_template('Seccion_3/lagrange.html', error=error_msg), 400
+
+            # Validar que haya al menos 2 puntos
+            if len(x) < 2:
+                error_msg = "Se requieren al menos 2 puntos para la interpolación"
+                print(f"[ERROR] Lagrange - {error_msg}")
+                return render_template('Seccion_3/lagrange.html', error=error_msg), 400
+
+            eng.addpath(dir_matlab)
+
+            matx = matlab.double(x)
+            maty = matlab.double(y)
+
+            print("[DEBUG] Lagrange - Llamando a función MATLAB...")
+            respuesta = eng.lagrangeInterp(matx, maty)
+            print(f"[DEBUG] Lagrange - Respuesta MATLAB: {respuesta}")
+
+            df = pd.read_csv(os.path.join(dir_tables,'tabla_lagrange.csv'))
+            polinomio = df['Polinomio'][0]
+
+            print(f"[DEBUG] Lagrange - Polinomio: {polinomio}")
+
+            data = df.to_dict(orient='records')
+
+            df.to_excel(os.path.join(dir_tables,'tabla_lagrange.xlsx'), index=False)
+
+            # Gráfica
+            imagen_path = os.path.join('static','grafica_lagrange.png')
+            print(f"[DEBUG] Lagrange - Éxito. Imagen: {imagen_path}")
+            return render_template('Seccion_3/resultado_lagrange.html',respuesta=polinomio, data=data, imagen_path=imagen_path)
+
+        except matlab.engine.MatlabExecutionError as e:
+            error_msg = f"Error en ejecución MATLAB: {str(e)}"
+            print(f"[ERROR] Lagrange - {error_msg}")
+            return render_template('Seccion_3/lagrange.html', error=error_msg), 500
+
+        except Exception as e:
+            error_msg = f"Error inesperado: {str(e)}"
+            print(f"[ERROR] Lagrange - {error_msg}")
+            import traceback
+            traceback.print_exc()
+            return render_template('Seccion_3/lagrange.html', error=error_msg), 500
+
     return render_template('Seccion_3/lagrange.html')
 
 @blueprint.route('/lagrange/descargar', methods=['POST'])

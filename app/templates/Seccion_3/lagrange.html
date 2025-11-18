@@ -20,6 +20,12 @@
 
         <h1 class="text-center">Método de interpolación de Lagrange</h1>
 
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+            <strong>Error:</strong> {{ error }}
+        </div>
+        {% endif %}
+
         <p></p>
         <p>Debes ingresar por lo menos dos puntos para la ejecución de este método</p>
         <p>Nota: Intenta no utilizar puntos repetidos ya que esto podría generar resultados inesperados en el polinomio
@@ -164,7 +170,18 @@
                     },
                     error: function (xhr, status, error) {
                         // Manejar errores de la solicitud
-                        console.error(error);
+                        console.error("Error en solicitud:", error);
+                        console.error("Estado:", status);
+                        console.error("Respuesta:", xhr.responseText);
+
+                        var errorMsg = "Error al procesar la solicitud.";
+                        if (xhr.status === 500) {
+                            errorMsg = "Error interno del servidor. Por favor verifica los datos ingresados.";
+                        } else if (xhr.status === 400) {
+                            errorMsg = "Datos inválidos. Verifica que los vectores X e Y tengan la misma longitud.";
+                        }
+
+                        alert(errorMsg + "\nDetalles técnicos: " + error);
                     }
                 });
             }
