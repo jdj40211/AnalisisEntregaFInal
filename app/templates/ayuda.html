@@ -273,21 +273,7 @@
             </details>
         </div>
         
-        <div class="derivative-container">
-            <p class="p-n"><i class="fas fa-calculator" style="margin-right: 10px; color: var(--primary-color);"></i> Calculadora de Derivadas</p>
-            <form id="derivative-form" action="/derivar" method="POST">
-                <label for="function-input">Ingresa la función aquí:</label>
-                <input type="text" id="function-input" name="function" required placeholder="Ej: x^2 + 3*x - 5">
-                <button type="submit"><i class="fas fa-arrow-right" style="margin-right: 8px;"></i>Calcular Derivada</button>
-            </form>
-            
-            {% if result %}
-            <div id="result">
-                <p class="p-n"><i class="fas fa-check-circle" style="color: var(--secondary-color); margin-right: 8px;"></i>Resultado:</p>
-                <p style="font-family: 'Courier New', monospace; background-color: #f0f0f0; padding: 10px; border-radius: 5px;">{{ result }}</p>
-            </div>
-            {% endif %}
-        </div>
+        
     </div>
 </body>
 {% endblock %}
