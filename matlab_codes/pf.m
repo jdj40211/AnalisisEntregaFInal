@@ -2,17 +2,22 @@ function [r, N, xn, fm, E] = pf(f_str, g_str, x0, Tol, niter, tipe)
     currentDir = fileparts(mfilename('fullpath'));
     f = str2func(['@(x)' f_str]);
     g = str2func(['@(x)' g_str]);
-    % —– Validación de que g es una reordenación de f(x)=0 —–
+    % —– Validación básica: verificar que g(x0) es diferente de x0 —–
+    % Para punto fijo, buscamos x = g(x), por lo que si x0 = g(x0),
+    % ya encontramos un punto fijo (que debería ser raíz de f)
     g0 = g(x0);
-    fg0 = f(g0);
-    f0  = f(x0);
+    f0 = f(x0);
 
-    % Si f(g(x0)) no mejora la cercanía a cero, error:
-    if abs(fg0) > abs(f0) || abs(fg0) < abs(f0)
-        error('PuntoFijo:FuncionInvalida', ...
-            ['g(x) no se corresponde con una función de punto fijo de f(x)=0. ', ...
-            'En x0=%g, |f(g(x0))|=%.3g ≥ |f(x0)|=%.3g'], ...
-            x0, abs(fg0), abs(f0));
+    % Si g(x0) = x0, verificar si es raíz
+    if abs(g0 - x0) < 1e-10
+        if abs(f0) < 1e-10
+            % Ya encontramos la raíz
+            return;
+        else
+            warning('PuntoFijo:PuntoFijoNoEsRaiz', ...
+                'x0=%g es un punto fijo de g(x) pero no es raíz de f(x). |f(x0)|=%.3g', ...
+                x0, abs(f0));
+        end
     end
 
     % Inicializar variables como vectores
